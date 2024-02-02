@@ -1,0 +1,89 @@
+---
+const { items } = Astro.props;
+---
+
+<ul
+  class="accordion-wrapper w-full [&>*:not(:last-child)]:border-b-2 border-zinc-200 shadow-lg shadow-slate-300"
+>
+  {
+    items.map((item: any, index: number) => {
+      return (
+        <li class="accordion-item-4 py-2 px-3 bg-white">
+          <button
+            type="button"
+            aria-expanded="false"
+            data-item={`accordion-item=${index + 1}`}
+            aria-controls={`accordion-content=${index + 1}`}
+            class:list={[
+              "relative w-full flex justify-between items-center [&.active>span]:text-indigo-600",
+              "[&.active>svg]:rotate-180 [&.active>svg]:text-indigo-600 [&.active>svg]:stroke-2",
+              "after:absolute after:content-none after:top-0 after:right-0 after:bottom-0 after:left-0 z-10",
+              "transition-all duration-500 ease-in-out",
+            ]}
+          >
+            <span class="font-semibold pointer-events-none">{item.title}</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-5 h-5 pointer-events-none rotate-0"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="m19.5 8.25-7.5 7.5-7.5-7.5"
+              />
+            </svg>
+          </button>
+          <p
+            data-content={`accordion-content-${index + 1}`}
+            role="region"
+            tabindex="-1"
+            class:list={[
+              "text-sm max-h-36 text-slate-700 py-2 hidden",
+              "transition-[height] duration-500 ease-in-out",
+            ]}
+          >
+            {item.content}
+          </p>
+        </li>
+      );
+    })
+  }
+</ul>
+
+<script is:inline>
+  const accordions = document.querySelectorAll("[data-item]");
+
+  accordions.forEach((item) => {
+    item.addEventListener("click", (e) => {
+      e.currentTarget.classList.toggle("active");
+      e.currentTarget.nextElementSibling.classList.toggle("hidden");
+      e.currentTarget.setAttribute("aria-expanded", "false");
+    });
+  });
+
+  window.document.addEventListener("click", (e) => {
+    e.preventDefault();
+    accordions.forEach((accordion) => {
+      if (accordion !== e.target) {
+        accordion.classList.remove("active");
+        accordion.nextElementSibling.classList.add("hidden");
+        accordion.setAttribute("aria-expanded", "false");
+      }
+    });
+  });
+
+  window.document.addEventListener("keyup", (e) => {
+    e.preventDefault();
+    if (e.key === "Escape") {
+      accordions.forEach((accordion) => {
+        accordion.classList.remove("active");
+        accordion.nextElementSibling.classList.add("hidden");
+        accordion.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
+</script>

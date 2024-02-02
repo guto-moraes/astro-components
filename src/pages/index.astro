@@ -1,0 +1,11 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Accordion from '../components/Accordion.astro';
+import { accordions } from '../data/accordion';
+---
+
+<Layout title="Astro Accordion Component">
+	<div class="containe w-[480px] mx-auto">
+		<Accordion items={accordions} />
+	</div>
+</Layout>
