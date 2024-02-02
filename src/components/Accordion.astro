@@ -12,7 +12,7 @@ const { items } = Astro.props;
           <button
             type="button"
             aria-expanded="false"
-            data-item={`accordion-item=${index + 1}`}
+            data-item={`accordion-item-${index + 1}`}
             aria-controls={`accordion-content=${index + 1}`}
             class:list={[
               "relative w-full flex justify-between items-center [&.active>span]:text-indigo-600",
