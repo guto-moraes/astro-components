@@ -1,0 +1,53 @@
+---
+title: Accordion
+description: Página de referência do componente Accordion.
+---
+
+import Accordion from "@components/Accordion.astro";
+import { accordions } from "@data/accordion";
+
+O componente <code>Accordion</code>, como os demais presentes neste repositório, prima por dois aspectos:
+a simplicidade e a acessibilidade. No primeiro caso, o objetivo é que ele seja funcional da forma
+mais simples possível e, no segundo, que ele siga as orientações propostas pela 
+[W3C](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/examples/accordion/).
+
+A propsta deste componente é que ele seja renderizado a partir de uma arquivo <code>Json</code>, de modo
+que seja possível utilizá-lo em conexão com uma base de dados externa. Porém, nada impede que ele seja
+adaptado para o uso com conteúdo estático. No momento, a versão disponível exibe o conteúdo de uma aba por vez.
+
+### Demonstração do componente
+<Accordion items={accordions} />
+
+## Accesibilidade
+
+O componente <code>Accordion</code> possui alguns recursos de acessibilidade, a saber:
+
+* Tecla de atalho para abertura de cada aba do componente (clique aqui para  ver tabela de correspondência);
+* Uso da tecla <code>Esc</code> para fechar qualquer aba que esteja aberta;
+* Clicar fora de qualquer aba também fará com que qualquer aba aberta seja fechada.
+
+### Tecla *Esc* para fechar aba aberta
+
+A primeira refere-se ao uso
+da tecla <code>Esc</code> para fechar um item que está aberto. 
+
+
+```js
+  window.document.addEventListener("keyup", (e) => {
+    e.preventDefault();
+    if (e.key === "Escape") {
+      accordions.forEach((accordion) => {
+        accordion.classList.remove("active");
+        accordion.nextElementSibling.classList.add("hidden");
+        accordion.setAttribute("aria-expanded", "false");
+      });
+    }
+  });
+```
+
+### Teclas de atalho nos principais navegadores
+
+| Syntax | Description |
+| ----------- | ----------- |
+| Header | Title |
+| Paragraph | Text |
